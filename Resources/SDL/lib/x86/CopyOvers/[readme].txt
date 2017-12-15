@@ -1,0 +1,1 @@
+these get copypasted into project debug folder

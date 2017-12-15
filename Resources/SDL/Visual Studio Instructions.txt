@@ -1,0 +1,31 @@
+//Settting up SDL for Visual Studio
+
+1. Project -> Properties
+1a. VC++ Directories -> Include Directories -> Filepath to SDL includes
+1b. Linker - > General -> Additional Library Directories -> Filepath to SDL lib (x86)
+1c. Linker -> Input -> Additional Dependencies -> SDL2.lib;SDL2main.lib; SDL2_image.lib
+
+2. Go to [Project] root folder -> Debug folder(should have the .exe of the project) 
+	-> Copy&Paste over SDL2.dll, SDL2_image.dll, libjpeg(version).dll, libpng(version).dll, and zlib1.dll from SDL\lib\x86
+
+
+//Getting main to work....overriding SDL_Main
+//2 ways to do it
+
+https://stackoverflow.com/questions/11976084/why-sdl-defines-main-macro
+3.Create the source/main.cpp
+3a. #include <SDL.h>
+3b. make main function as : int main(int argc, char * argv[])
+3c. Project - > Properties -> Linker -> Subsystem -> Windows or Console...either one
+
+or 
+
+https://stackoverflow.com/questions/18672303/sdl2-lnk1561-entry-point-must-be-defined
+3.Create the source/main.cpp
+3a. #define SDL_MAIN_HANDLED (important you do this before you #include SDL.h)
+3b. #include <SDL.h>
+3c. Call SDL_SetMainReady(); in main
+3d. Project - > Properties -> Linker -> Subsystem -> Windows or Console...either one
+
+
+

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "[01]Hello SDL", "[01]Hello 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "[02]Getting an Image on the Screen", "[02]Getting an Image on the Screen\[02]Getting an Image on the Screen.vcxproj", "{2F6C4EE8-C0DB-4BE3-B3FA-F973AC6D6D26}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "[03]Event Driven Programming", "[03]Event Driven Programming\[03]Event Driven Programming.vcxproj", "{CE5F720A-5568-4604-BFB6-669B4B9CF3E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{2F6C4EE8-C0DB-4BE3-B3FA-F973AC6D6D26}.Release|x64.Build.0 = Release|x64
 		{2F6C4EE8-C0DB-4BE3-B3FA-F973AC6D6D26}.Release|x86.ActiveCfg = Release|Win32
 		{2F6C4EE8-C0DB-4BE3-B3FA-F973AC6D6D26}.Release|x86.Build.0 = Release|Win32
+		{CE5F720A-5568-4604-BFB6-669B4B9CF3E9}.Debug|x64.ActiveCfg = Debug|x64
+		{CE5F720A-5568-4604-BFB6-669B4B9CF3E9}.Debug|x64.Build.0 = Debug|x64
+		{CE5F720A-5568-4604-BFB6-669B4B9CF3E9}.Debug|x86.ActiveCfg = Debug|Win32
+		{CE5F720A-5568-4604-BFB6-669B4B9CF3E9}.Debug|x86.Build.0 = Debug|Win32
+		{CE5F720A-5568-4604-BFB6-669B4B9CF3E9}.Release|x64.ActiveCfg = Release|x64
+		{CE5F720A-5568-4604-BFB6-669B4B9CF3E9}.Release|x64.Build.0 = Release|x64
+		{CE5F720A-5568-4604-BFB6-669B4B9CF3E9}.Release|x86.ActiveCfg = Release|Win32
+		{CE5F720A-5568-4604-BFB6-669B4B9CF3E9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

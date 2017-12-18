@@ -15,15 +15,15 @@ Includes
 /*************************************************************************
 Definitions
 **************************************************************************/
-bool Init();			//Starts up SDL and creates a window
-bool LoadMedia();		//Loads media
-void Close();			//Frees media and shuts down SDL
-void OutputMessage();	//Debugging function, Write to Output window
+bool Init();				//Starts up SDL and creates a window
+bool LoadMediaBMP(char*);	//Loads media
+void Close();				//Frees media and shuts down SDL
+void OutputMessage();		//Debugging function, Write to Output window
 
 std::stringstream ss;				//for debugging; Output messages
 SDL_Window* gWindow = NULL;			//Window to render to
 SDL_Surface* gScreenSurface = NULL;	//Surface contained by window
-SDL_Surface* gHellowWorld = NULL;	//Image to load and show on screen
+SDL_Surface* gImage = NULL;			//Image to load and show on screen
 const int SCREEN_WIDTH = 640;		//width of screen
 const int SCREEN_HEIGHT = 480;		//height of screen
 
@@ -37,35 +37,54 @@ Functions
 //main: entry point of program
 int main(int argc, char * argv[])
 {
+	//Main loop flag
+	bool quit = false;
+
+	//Event handler 
+	SDL_Event e;
+
 	//Startup SDL and create window
 	if (!Init()) {
 		ss << "Failed to initialize!\n";
 		OutputMessage();
+		Close();
+		return -1;
 	}
-	else {
-		//Load media
-		if (!LoadMedia()) {
-			ss << "Failed to laod media!\n";
-			OutputMessage();
-		}
-		else {
-			//Apply image
-			SDL_BlitSurface(gHellowWorld, NULL, gScreenSurface, NULL);
 
-			//Update the surface
-			SDL_UpdateWindowSurface(gWindow);
-
-			//Wait two seconds
-			SDL_Delay(2000);
-		}
+	//Load media
+	if (!LoadMediaBMP("img/x.bmp")) {
+		ss << "Failed to load media!\n";
+		OutputMessage();
+		Close();
+		return -2;
 	}
-	
+
+	//main application loop
+	while (!quit)
+	{
+		//Handle events on a queue
+		while (SDL_PollEvent(&e) != 0)
+		{
+			//User requests quit
+			if (e.type == SDL_QUIT) {
+				quit = true;
+			}
+		}//end of event queue
+
+		 //Apply image
+		SDL_BlitSurface(gImage, NULL, gScreenSurface, NULL);
+
+		//Update the surface
+		SDL_UpdateWindowSurface(gWindow);
+
+	}//end of application loop
 	//Free resources and close SDL
 	Close();
+
 	return 0;
 }
 
-bool Init() 
+bool Init()
 {
 	//Initialization flag
 	bool success = true;
@@ -74,12 +93,12 @@ bool Init()
 	OutputMessage();
 
 	//Initialzie SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0){
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		ss << "SDL could not initialize! SDL_Error: %s\n" << SDL_GetError() << "\n";
 		OutputMessage();
 		success = false;
 	}
-	else{
+	else {
 		//Create window
 		gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (gWindow == NULL) {
@@ -96,7 +115,11 @@ bool Init()
 	return success;
 }
 
-bool LoadMedia()
+//bool LoadMediaBMP(char* filePath)
+//Attempts to load given a BMP file
+//char* filePath : filepath to bmp file
+//return bool : true if bmp successfully loaded, false if error occured
+bool LoadMediaBMP(char* filePath)
 {
 	//Loading success flag
 	bool success = true;
@@ -105,8 +128,8 @@ bool LoadMedia()
 	OutputMessage();
 
 	//Load splash iamge
-	gHellowWorld = SDL_LoadBMP("img/hello_world.bmp");
-	if (gHellowWorld == NULL) {
+	gImage = SDL_LoadBMP(filePath);
+	if (gImage == NULL) {
 		ss << "Unable to load image! SDL_Error: \n" << SDL_GetError() << "\n";
 		OutputMessage();
 		success = false;
@@ -115,14 +138,16 @@ bool LoadMedia()
 	return success;
 }
 
+//void Close() 
+//Frees resources and closes SDL
 void Close()
 {
 	ss << "Shutting down...\n";
 	OutputMessage();
 
 	//Deallocate surface
-	SDL_FreeSurface(gHellowWorld);
-	gHellowWorld = NULL;
+	SDL_FreeSurface(gImage);
+	gImage = NULL;
 
 	//Destroy window
 	SDL_DestroyWindow(gWindow);	//also frees up the realted window surface(s)
@@ -131,11 +156,13 @@ void Close()
 
 	//Quit SDL subsystems;
 	SDL_Quit();
-
-
 }
 
-void OutputMessage() 
+//void OutputMessage()
+//Outputs the stringstream ss to the Output tab
+//mainly for debugging
+//Side effect: clears ss contents after outputting.
+void OutputMessage()
 {
 	OutputDebugString(ss.str().c_str());
 	ss.str("");
